@@ -44,7 +44,16 @@ The agent gets a compact behavioral contract that pushes it to:
 - verify before claiming success
 - leave an auditable handoff
 
-For tight context windows, use `AGENTS.min.md` instead.
+Use the full contract by default.
+
+Compact versions are secondary:
+
+- `AGENTS.md` — recommended full contract for agents that read `AGENTS.md`
+- `CLAUDE.md` — recommended full contract for Claude Code
+- `AGENTS.min.md` — compressed fallback for tight context windows or quick adoption
+- `CLAUDE.min.md` — compressed fallback for Claude Code
+
+The `.min` files are intentionally smaller. They preserve the core behavior, but they are not meant to replace the full contract when context is available.
 
 ---
 
@@ -255,7 +264,8 @@ Do not claim completion beyond the evidence.
 
 - `AGENTS.md` — full behavioral contract
 - `CLAUDE.md` — same contract for Claude Code users, with Claude-specific filename
-- `AGENTS.min.md` — compressed version for tight context windows
+- `AGENTS.min.md` — compressed fallback for tight context windows or quick adoption
+- `CLAUDE.min.md` — compressed fallback for Claude Code
 - `OPERATORS.md` — operator catalog
 - `DESIGN.md` — design notes on reduction and composition
 - `COVERAGE.md` — rule-level coverage matrix

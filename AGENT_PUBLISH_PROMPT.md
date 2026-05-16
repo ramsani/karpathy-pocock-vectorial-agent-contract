@@ -21,6 +21,7 @@ Instructions:
    - AGENTS.md
    - CLAUDE.md
    - AGENTS.min.md
+   - CLAUDE.min.md
    - README.md
    - DESIGN.md
    - OPERATORS.md

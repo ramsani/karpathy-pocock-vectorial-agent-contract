@@ -45,6 +45,7 @@ vectorial
 - [ ] Confirm `AGENTS.md` is the latest version.
 - [ ] Confirm `CLAUDE.md` is behaviorally equivalent to `AGENTS.md` except for filename/title.
 - [ ] Confirm `AGENTS.min.md` matches the same core behavior.
+- [ ] Confirm `CLAUDE.min.md` matches `AGENTS.min.md` except for filename/title.
 - [ ] Confirm README links work.
 - [ ] Confirm NOTICE includes attribution.
 - [ ] Confirm LICENSE is present.
