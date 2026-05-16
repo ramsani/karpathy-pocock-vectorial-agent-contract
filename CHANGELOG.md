@@ -2,20 +2,10 @@
 
 ## Unreleased
 
-- Add `Risk-First Planning`, `Product UX`, and `Acceptance Gate` operators.
-- Update full and compact contracts plus README, operator catalog, design notes, coverage, and examples.
+- Keep a single canonical contract: `AGENTS.md` plus equivalent `CLAUDE.md`.
+- Remove alternate contract versions and auxiliary publishing/example/operator files to prevent drift.
+- Update README with stronger problem/promise/install flow, reference positioning, and practical compatibility sections for Karpathy-inspired coding agents, Claude Code, Cursor, Codex, `AGENTS.md`, and `CLAUDE.md`.
 
 ## v0.1.0
 
-Initial public-ready draft.
-
-Includes:
-
-- `AGENTS.md`
-- `CLAUDE.md`
-- `AGENTS.min.md`
-- base rules
-- composition operators
-- block conditions
-- handoff format
-- README, design notes, coverage notes, examples, attribution, license, and publishing guide
+Initial public-ready draft of the agent behavior contract.

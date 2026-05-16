@@ -1,31 +1,32 @@
 # Contributing
 
-Contributions should preserve the core design: small independent rules plus contextual operators.
+Contributions should preserve the repository shape: one canonical `AGENTS.md`, one equivalent `CLAUDE.md`, and minimal supporting documentation.
 
 ## Good contributions
 
-- clarify a rule without making it broader
-- add an operator only when it covers a broadly useful condition
-- improve examples
-- identify redundancy
-- improve attribution or documentation
+- clarify an instruction without broadening it
+- remove ambiguity from wording
+- improve attribution or positioning
+- fix documentation drift
+- reduce files or duplicated concepts
 
 ## Avoid
 
-- project-specific rules
+- alternate contract versions
+- benchmarks, harnesses, or demos
 - framework-specific defaults
-- domain-specific workflows
+- project-specific workflows
 - long prompt templates
-- vague principles without observable behavior
-- role prompts that require the model to infer behavior
+- vague principles that require interpretation
+- role prompts such as "act as a senior engineer"
 
-## Test for a new rule
+## Test for a change
 
-Before adding a rule, ask:
+Before changing the contract, ask:
 
-1. Is this behavior broadly useful across repositories?
-2. Is it already covered by a base rule plus an operator?
-3. Does it reduce interpretation?
-4. Can an agent follow it without project-specific knowledge?
+1. Does this reduce a repeated coding-agent failure mode?
+2. Can an agent follow it without project-specific knowledge?
+3. Does it preserve the start-to-close protocol?
+4. Does the same behavior already exist elsewhere in the file?
 
-If the answer to #2 is yes, prefer improving the existing operator instead of adding a new rule.
+If the answer to #4 is yes, clarify the existing instruction instead of adding another one.
