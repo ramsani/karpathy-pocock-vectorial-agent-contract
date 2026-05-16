@@ -50,11 +50,21 @@ Verification × Bug or Regression
 ```
 
 ```text
+Evidence × Contradiction Detection
+= stated behavior does not override observed repository evidence
+```
+
+```text
 Scope × Simplicity Pressure
 = avoid abstractions, flags, providers, dependencies, or future flexibility unless required
 ```
 
-This structure lets the contract stay compact while still producing specific behavior in practical situations.
+```text
+Contract Safety × Documentation Drift
+= if changed behavior makes existing docs false, update docs or report the drift
+```
+
+This structure lets the contract stay compact while still producing specific behavior in practical situations. Decision records are also gated: an ADR should exist only when the decision is costly to reverse, surprising without context, and based on real alternatives.
 
 ## Controlled specialization
 
