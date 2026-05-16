@@ -1,10 +1,12 @@
 # Design
 
-This repository treats an agent instruction file as behavioral modeling, not role assignment and not skill accumulation.
+This repository treats an agent instruction file as behavioral modeling, not role assignment, not rule sections, and not skill accumulation.
 
-A role asks the model to infer what a good engineer would do. A skill gives the model a recipe for one situation. A behavioral contract defines the reusable conduct that makes expert work reliable across many situations.
+A role asks the model to infer what a good engineer would do. A rule section tells it what to obey in one block. A skill gives it a recipe for one situation. A behavioral contract defines the reusable conduct that makes expert work reliable across many situations.
 
 The central idea is simple: do not store every expert behavior; store a compact basis that can generate them.
+
+The target is not section compliance. The target is professional conduct shaped by composable, regulated, internalized behavior patterns.
 
 The goal is to reduce avoidable coding-agent failures without making the instruction file so large that the agent stops following it.
 
@@ -89,7 +91,7 @@ Each base vector covers a distinct behavioral dimension. A vector should remain 
 
 ## Composition operators
 
-Operators are not extra principles. They are contextual multipliers.
+Operators are not extra principles and not extra procedure sections. They are contextual regulators and multipliers.
 
 For example:
 
@@ -151,6 +153,8 @@ specialized behavior = base vectors × context operators
 ```
 
 This makes the behavior more inspectable than a role prompt because the specialization comes from visible conditions and obligations, not from an implied identity.
+
+The aim is not to make the agent perform a role. The aim is to modify how it notices, decides, acts, verifies, and hands off work.
 
 ## Decision records
 

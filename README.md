@@ -2,6 +2,8 @@
 
 A behavioral basis for coding agents.
 
+This project does not model roles or rule sections. It models professional behavior patterns that compose, regulate, and modify agent conduct.
+
 We do not store every expert behavior. We store a compact basis that can generate them.
 
 This repo turns agent skills into agent instincts.
@@ -9,6 +11,8 @@ This repo turns agent skills into agent instincts.
 When knowledge is internalized, behavior can change.
 
 Instead of installing a growing list of situational skills, it extracts the expert behavior behind those skills and composes it through a compact `AGENTS.md` / `CLAUDE.md` contract.
+
+The target is not compliance with sections. The target is human-like professional conduct shaped by internalized behavioral patterns.
 
 **The goal:** broader aligned agent behavior with less prompt growth, less context overhead, and more verifiable work.
 
@@ -65,6 +69,8 @@ How can it compose with other behaviors?
 ```
 
 The reusable parts become behavioral vectors and context operators.
+
+The vectors are not rule sections. They are dimensions of professional conduct. The operators are not extra procedures. They are contextual regulators.
 
 **A skill teaches a recipe. A behavior teaches judgment.**
 
@@ -159,7 +165,7 @@ These are the independent behavioral dimensions in the contract:
 
 ## The context operators
 
-Operators activate only when their condition appears. They do not replace the base vectors; they multiply them.
+Operators activate only when their condition appears. They do not replace the base vectors; they regulate and multiply them.
 
 | Operator | When it activates | Adds |
 |---|---|---|
