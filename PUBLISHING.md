@@ -7,19 +7,19 @@ Use this checklist to publish the repository cleanly.
 Recommended:
 
 ```text
-agent-behavior-contract
+karpathy-pocock-vectorial-agent-contract
 ```
 
 Alternative:
 
 ```text
-compositional-agents-md
+karpathy-agent-contract
 ```
 
 ## Description
 
 ```text
-Behavioral contract for coding agents: base rules, context operators, block conditions, and auditable handoff.
+Karpathy- and Pocock-inspired vectorial agent contract: fewer skills, stronger composition, verifiable coding-agent behavior.
 ```
 
 ## Suggested topics
@@ -35,6 +35,9 @@ cursor
 llm
 software-engineering
 prompt-engineering
+karpathy
+pocock
+vectorial
 ```
 
 ## Pre-publish checklist
@@ -63,7 +66,7 @@ Initial public release of agent behavior contract
 ## Suggested launch post
 
 ```text
-I published a small AGENTS.md / CLAUDE.md contract for coding agents.
+I published Karpathy-Pocock Vectorial Composed Learnings: an AGENTS.md / CLAUDE.md contract for coding agents.
 
 Most agent instructions assign a role. This one models behavior.
 

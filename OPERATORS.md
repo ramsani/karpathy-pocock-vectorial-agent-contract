@@ -34,6 +34,14 @@ Purpose: prevent silent contradiction.
 
 Effect: name the conflict and ask whether to preserve or replace the prior direction.
 
+## Contradiction Detection
+
+Use when stated behavior conflicts with observed code, docs, tests, logs, or outputs.
+
+Purpose: prevent assumptions from overriding repository evidence.
+
+Effect: name the contradiction, state what was claimed, state what was observed, and do not resolve silently.
+
 ## Bug or Regression
 
 Use when fixing a bug, failed test, or inconsistent behavior.
@@ -49,6 +57,14 @@ Use when touching API, schema, CLI flag, environment variable, file format, perm
 Purpose: prevent accidental breaking changes.
 
 Effect: name the affected surface, state what changes, state what remains compatible, verify the narrowest public behavior.
+
+## Documentation Drift
+
+Use when a task changes behavior, contracts, setup, terminology, or decisions that existing docs describe.
+
+Purpose: prevent documentation from becoming false as part of the change.
+
+Effect: update affected docs in the same change, or report the drift when docs are out of scope. Do not create new documentation structures unless required.
 
 ## High Risk
 

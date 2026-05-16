@@ -1,6 +1,43 @@
-# Karpathy's Vectorial Composed Learnings
+# Karpathy-Pocock Vectorial Composed Learnings
 
-A behavioral contract for coding agents. Built on what 4 rules taught, extended into 10 principles + 9 context operators.
+Most agent repos add more skills.
+
+This repo extracts the behavior behind skills and turns it into a compact agent contract.
+
+Skills are recipes for one situation. Behavioral vectors are reusable across many situations.
+
+**The goal:** fewer skills, stronger composition, verifiable agent behavior.
+
+> Composition can replace accumulation.
+
+| Skill catalog | Vectorial contract |
+|---|---|
+| Adds instructions | Extracts behavior |
+| Grows by accumulation | Grows by composition |
+| Many situational recipes | Few reusable vectors |
+| More context overhead | Less context overhead |
+| Tool-specific | Agent-behavior focused |
+
+---
+
+## Core thesis
+
+A useful skill contains more than instructions. It contains transferable behavior.
+
+This project takes skills, examples, and coding-agent failure modes, then asks:
+
+```text
+What behavior is this trying to produce?
+What part is domain-specific?
+What part is reusable across repositories?
+What condition should trigger it?
+```
+
+The reusable parts become behavioral vectors. Context decides how they compose.
+
+That is why this is not a larger skill catalog. It is a smaller operating contract for behavior that agents can internalize.
+
+Don’t give the agent more skills. Teach it the behavioral vectors that make skills work.
 
 ---
 
@@ -49,7 +86,7 @@ These are the independent vectors of agent behavior:
 
 ---
 
-## The 9 operators
+## The 10 operators
 
 Rules apply always. Operators multiply rules by context.
 
@@ -140,7 +177,7 @@ These rules are working when:
 One line:
 
 ```bash
-curl -o AGENTS.md https://raw.githubusercontent.com/ramsani/agent-behavior-contract/main/AGENTS.md
+curl -o AGENTS.md https://raw.githubusercontent.com/ramsani/karpathy-pocock-vectorial-agent-contract/master/AGENTS.md
 ```
 
 Then place `AGENTS.md` at the root of any project.
@@ -162,7 +199,7 @@ For tight context windows, use `AGENTS.min.md` instead.
 
 ## Attribution
 
-Inspired by Andrej Karpathy's public guidance on LLM coding failures.
+Inspired by Andrej Karpathy's public guidance on LLM coding failures and Matt Pocock's public coding-agent skills work. This is an independent project and is not affiliated with or endorsed by Andrej Karpathy, Matt Pocock, or their projects.
 
 This project extends those observations through a compositional model: decompose rules into independent vectors, remove redundancy, recover specificity through operators.
 

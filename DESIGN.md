@@ -16,6 +16,22 @@ The contract should be:
 - strict enough to block unsafe or unverifiable work
 - composable enough to avoid repeating the same rule in many forms
 
+## Skill distillation
+
+A skill is a situated behavior package: trigger, procedure, domain assumptions, and expected outputs.
+
+This contract treats useful skills as source material. The process is:
+
+1. Identify the behavior the skill reliably produces.
+2. Separate domain-specific assumptions from general agent behavior.
+3. Extract the independent behavioral vectors.
+4. Attach each vector to a condition or operator.
+5. Preserve only what improves behavior across repositories.
+
+The agent does not need to carry every skill if the underlying behavior has been internalized into the contract.
+
+This is the practical reason for the vector model: composition can replace accumulation.
+
 ## Behavioral basis
 
 The full contract uses ten base rules:
@@ -50,11 +66,21 @@ Verification × Bug or Regression
 ```
 
 ```text
+Evidence × Contradiction Detection
+= stated behavior does not override observed repository evidence
+```
+
+```text
 Scope × Simplicity Pressure
 = avoid abstractions, flags, providers, dependencies, or future flexibility unless required
 ```
 
-This structure lets the contract stay compact while still producing specific behavior in practical situations.
+```text
+Contract Safety × Documentation Drift
+= if changed behavior makes existing docs false, update docs or report the drift
+```
+
+This structure lets the contract stay compact while still producing specific behavior in practical situations. Decision records are also gated: an ADR should exist only when the decision is costly to reverse, surprising without context, and based on real alternatives.
 
 ## Controlled specialization
 

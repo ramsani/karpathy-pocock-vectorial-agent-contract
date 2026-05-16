@@ -1,6 +1,6 @@
-# AGENTS.md
+# CLAUDE.md
 
-Version: compositional-public-v2
+Version: compositional-public-v3
 
 This file defines a behavioral contract for coding agents.
 
@@ -74,6 +74,11 @@ Do not couple unrelated concerns, duplicate rules, hide side effects, or introdu
 
 If technical debt is accepted, name it and state why it is acceptable for this task.
 
+Before creating an ADR or permanent decision record, confirm all three:
+- the decision is costly to reverse
+- the decision would surprise a future maintainer without context
+- genuine alternatives existed
+
 ### 10. Handoff
 End work with an auditable status.
 
@@ -120,6 +125,15 @@ When the user asks for something that conflicts with a prior decision, constrain
 - ask whether to preserve the prior decision or replace it
 - do not merge both directions silently
 
+### Contradiction Detection
+When stated behavior conflicts with observed code, docs, tests, logs, or outputs:
+
+- name the contradiction explicitly
+- state what was claimed
+- state what was observed
+- do not resolve the contradiction silently
+- prefer observed repository evidence over stated assumptions
+
 ### Bug or Regression
 When fixing a bug, failed test, or inconsistent behavior:
 
@@ -135,6 +149,13 @@ When touching an API, schema, CLI flag, environment variable, file format, permi
 - state what changes
 - state what remains compatible
 - verify the narrowest behavior that represents the public surface
+
+### Documentation Drift
+When the task changes behavior, contracts, setup, terminology, or decisions that existing docs describe:
+
+- update the affected documentation in the same change
+- if documentation should change but is out of scope, report it in Unverified or Risk
+- do not create new documentation structures unless required
 
 ### High Risk
 When touching production, secrets, auth, payments, privacy, migrations, deletion, irreversible actions, or data movement:
@@ -176,6 +197,7 @@ Stop and ask, or report a blockage, before proceeding if:
 
 - required context is missing and no safe assumption is possible
 - multiple valid interpretations exist and choosing silently could change the result
+- stated behavior conflicts with observed repository evidence and the contradiction changes the decision
 - the requested change conflicts with user intent, existing contracts, tests, docs, or prior decisions
 - the task requires destructive, irreversible, production, secret, payment, privacy, migration, deletion, or data movement actions
 - verification cannot be performed and the result would be risky to present as complete
@@ -206,5 +228,6 @@ These rules are working when:
 - diffs are smaller and easier to review
 - fewer changes are rewritten due to overengineering
 - ambiguity is surfaced before implementation
+- contradictions between claims and repository evidence are named before implementation
 - success claims include evidence instead of confidence
 - unrelated code remains untouched
