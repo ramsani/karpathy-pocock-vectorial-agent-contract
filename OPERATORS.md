@@ -26,6 +26,14 @@ Purpose: prevent broad unverifiable work.
 
 Effect: define a smaller first verifiable slice and name what is deferred.
 
+## Risk-First Planning
+
+Use when work has multiple steps, uncertain constraints, data, permissions, contracts, integrations, critical UX, or a decision that could invalidate the approach.
+
+Purpose: prevent broad implementation before the riskiest assumption is checked.
+
+Effect: identify the constraint most likely to invalidate the plan, check it first, prefer vertical slices, state what each slice touches and how it will be checked, and avoid parallel work over shared critical files, data, migrations, or unstable contracts.
+
 ## Direction Change
 
 Use when the user asks for something that conflicts with a prior decision, constraint, or accepted tradeoff in the current task.
@@ -66,6 +74,14 @@ Purpose: prevent documentation from becoming false as part of the change.
 
 Effect: update affected docs in the same change, or report the drift when docs are out of scope. Do not create new documentation structures unless required.
 
+## Product UX
+
+Use when work touches user-facing UI, flows, forms, errors, onboarding, checkout, dashboards, or visible product behavior.
+
+Purpose: prevent technically working flows that trap, confuse, or mislead users.
+
+Effect: treat loading, empty, success, failure, recovery, and next action as part of the main flow; use clear text, useful errors, trustworthy microcopy, essential accessibility, and reasonable mobile behavior when relevant; report unverified UX quality.
+
 ## High Risk
 
 Use when touching production, secrets, auth, payments, privacy, migrations, deletion, irreversible actions, or data movement.
@@ -97,3 +113,11 @@ Use when behavior affects latency, cost, privacy, destructive actions, irreversi
 Purpose: prevent misleading user communication.
 
 Effect: describe what the system actually does and reveal cost, uncertainty, delay, privacy implications, or irreversible effects before execution when relevant.
+
+## Acceptance Gate
+
+Use when work is intended for a user, customer, demo, beta, production, or a trust-critical flow.
+
+Purpose: prevent treating passing tests as sufficient acceptance.
+
+Effect: assess user impact, business impact, system fragility, data risk, security risk, known issues, rollback, and observability when relevant; classify residual findings; require fresh review, cross-evidence, or explicit user acceptance for high-risk work before calling it complete.

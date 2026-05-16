@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add `Risk-First Planning`, `Product UX`, and `Acceptance Gate` operators.
+- Update full and compact contracts plus README, operator catalog, design notes, coverage, and examples.
+
 ## v0.1.0
 
 Initial public-ready draft.

@@ -66,6 +66,20 @@ Report risk, rollback path, and available evidence.
 Prefer dry run or inspection first.
 ```
 
+## Risk-first planning
+
+User: "Implement the new checkout flow with payment and account creation."
+
+Contract behavior:
+
+```text
+Risk-First Planning triggered.
+Identify the constraint most likely to invalidate the plan: current checkout contract, payment credentials, permissions, or account model.
+Check that constraint first.
+Start with a vertical slice that produces an observable result.
+Do not parallelize work over shared contracts or migrations.
+```
+
 ## Direction change
 
 User first accepts "no new dependency", then asks to add a package.
@@ -76,6 +90,33 @@ Contract behavior:
 Direction Change triggered.
 Name conflict with prior decision.
 Ask whether to preserve no-dependency constraint or replace it.
+```
+
+## Product UX
+
+User: "Add the signup form."
+
+Contract behavior:
+
+```text
+Product UX triggered.
+Cover loading, empty, success, failure, recovery, and next action when relevant.
+Use clear text and useful errors.
+Preserve basic accessibility and reasonable mobile behavior.
+Report any UX quality that was not verified.
+```
+
+## Acceptance gate
+
+User: "Prepare this for the customer demo."
+
+Contract behavior:
+
+```text
+Acceptance Gate triggered.
+Do not stop at passing tests.
+Assess user impact, business impact, system fragility, known issues, rollback, and observability when relevant.
+Classify residual risks before calling it ready.
 ```
 
 ## Role prompt vs behavioral contract

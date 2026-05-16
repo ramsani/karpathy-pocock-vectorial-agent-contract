@@ -22,9 +22,13 @@ This document explains what the contract is intended to cover.
 | Claiming success without checks | Verification |
 | Losing state in long tasks | Active Context |
 | Starting broad unverifiable work | Scope Expansion |
+| Implementing before checking invalidating assumptions | Risk-First Planning |
+| Parallelizing work over shared critical files, data, migrations, or unstable contracts | Risk-First Planning |
 | Contradicting prior decisions silently | Direction Change |
 | Fixing bugs without reproducing or inspecting failure | Bug or Regression |
 | Hiding cost, latency, privacy, or destructive effects | User-Visible Truth |
+| Shipping technically working but confusing or misleading user flows | Product UX |
+| Treating passing tests as sufficient for user, demo, beta, production, or trust-critical delivery | Acceptance Gate |
 | Leaving unusable completion notes | Handoff |
 
 ## What is intentionally not covered
@@ -38,6 +42,7 @@ The contract does not prescribe:
 - package manager
 - formatting tool
 - application domain
+- full product design standards beyond essential user-facing flow quality
 - runtime or agent vendor
 
 Those belong in project-specific instructions.

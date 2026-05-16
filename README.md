@@ -1,374 +1,101 @@
-# Karpathy-Pocock Vectorial Agent Contract
+# AGENTS.md — What Karpathy Taught Me
 
-**AGENTS.md / CLAUDE.md behavioral contract for coding agents, AI agents, Claude Code, Cursor, Codex, and LLM software engineering.**
+> 12 behavioral constraints for LLM coding agents, built from years of following Andrej Karpathy across YouTube, Twitter, interviews, and lectures — interpreted, stress-tested, and synthesized into executable agent instructions.
 
-Your coding agent already knows how to write code.
+---
 
-The problem is what it does before, during, and after writing it.
+## Origin
 
-It guesses intent. It designs from memory. It overbuilds. It edits nearby code. It changes public behavior silently. It says “done” without evidence.
+In January 2026, Karpathy posted what became one of the most cited observations about AI coding agents:
 
-This repo gives the agent a compact behavioral basis that changes that trajectory.
+> *"The models make wrong assumptions on your behalf and just run along with them without checking. They don't manage their confusion, don't seek clarifications, don't surface inconsistencies, don't present tradeoffs, don't push back when they should."*
 
-This is the difference:
+> *"They really like to overcomplicate code and APIs, bloat abstractions, don't clean up dead code... implement a bloated construction over 1000 lines when 100 would do."*
 
-```text
-A normal AGENTS.md lists instructions.
-This one compresses many possible expert behaviors into reusable behavioral vectors.
-```
+> *"They still sometimes change/remove comments and code they don't sufficiently understand as side effects, even if orthogonal to the task."*
 
-Instead of writing 100+ separate rules for every situation, the contract combines a small set of base vectors with context operators. The result is many derived behaviors without a huge prompt.
+Developer Forrest Chang encoded those three failure modes into [four principles](https://github.com/forrestchang/andrej-karpathy-skills) — a file that reached 130k+ GitHub stars. Four principles, beautifully executed.
 
-> More aligned behavior. Less prompt mass.
->
-> Composition can replace accumulation.
+This file goes further — and differently.
 
-## Why this is not another AGENTS.md
+---
 
-Most instruction files grow by accumulation:
+## The design decisions most files get wrong
 
-```text
-if bug, do this
-if API change, do this
-if risky task, do this
-if docs drift, do this
-if external tool, do this
-...
-```
+**First decision: behavioral engineering, not identity engineering.**
 
-That works until the file becomes long, repetitive, and hard for the agent to prioritize.
+Most agent configuration files use identity instructions: *"Act as a senior software engineer..."*
 
-This repo uses a different structure:
+This file uses only behavioral instructions: what to do, how to do it, and why that constraint exists — as a single executable unit.
 
-```text
-10 base vectors × context operators = many situated professional behaviors
-```
+The difference is not stylistic. Identity instructions force the model to construct a persona, derive behavior from that persona, and maintain both across the session. Two failure points. Unnecessary context consumption. Variance between intended and actual output.
 
-For example:
+Behavioral instructions operate at the decision layer directly. No persona to maintain. No derivation required. The constraint applies at the exact moment the decision is made.
 
-```text
-Bug or Regression × Evidence × Verification
-= inspect or reproduce the failure before fixing, then verify against that failure mode
-```
+**Second decision: no word that requires interpretation.**
 
-```text
-Public Surface × Contract Safety
-= name the affected API/schema/CLI/env/user behavior and state compatibility impact
-```
+Every instruction in this file was audited from inside the agent's perspective — line by line, word by word. Each sentence has one subject, one action verb, and one unambiguous object. Terms like "use judgment," "trivial tasks," "safe assumption," "foreign changes," and "decorative tests" were replaced with instructions an agent can evaluate as true or false at the moment of execution, without inferring external context.
 
-```text
-Simplicity Pressure × Scope × Minimal Reversible Change
-= avoid speculative abstraction and make the smallest reversible edit that solves the requested outcome
-```
+This is not editing for clarity. It is engineering for determinism.
 
-So the agent is not just following a longer checklist. It is being given a compact conduct system that tells it what to do, how to do it, and why it matters in the current context.
+> *See [DESIGN.md](./DESIGN.md) for the full technical rationale.*
 
-## Try it in 30 seconds
+---
+
+## What this adds beyond Karpathy's four principles
+
+Karpathy's observations cover failure modes visible inside a single task. Production systems fail at a different layer — across boundaries, across sessions, across agents:
+
+- An agent that doesn't protect boundaries silently breaks contracts others depend on
+- An agent that closes without leaving context forces the next session to reinvent from scratch
+- An agent that accepts debt without naming it compounds fragility no test catches
+- An agent that treats external input as trusted opens the system to prompt injection at scale
+
+This file covers Karpathy's three failure modes and eight additional patterns that only appear in production.
+
+**12 rules. Each encodes what + how + why as a single executable instruction.**
+
+---
+
+## Adoption
+
+**Minimal profile** — Rules 1, 2, 3, 6, 10. Covers Karpathy's core failure modes with minimal overhead.
+
+**Full profile** — All 12 rules. For agents working on shared codebases, production systems, or across sessions.
+
+**Compose** — Merge with your own `AGENTS.md` or `CLAUDE.md`. Designed to compose, not conflict.
 
 ```bash
-curl -o AGENTS.md https://raw.githubusercontent.com/ramsani/karpathy-pocock-vectorial-agent-contract/master/AGENTS.md
+curl -o AGENTS.md https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/AGENTS.md
 ```
 
-For Claude Code:
+---
 
-```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/ramsani/karpathy-pocock-vectorial-agent-contract/master/CLAUDE.md
-```
+## Rules
 
-Then ask your agent to fix a bug, add a feature, or review a change. Watch for the difference: it should read first, narrow scope, stop on risk, verify before claiming success, and leave a cleaner handoff.
+| # | Rule | Failure it prevents |
+|---|------|---------------------|
+| 1 | Think Before Acting | Silent assumptions and unchecked context |
+| 2 | Work From Reality | Designing from memory instead of the live system |
+| 3 | Simplicity First | Bloated abstractions and overcomplicated solutions |
+| 4 | Protect Boundaries | Silent cross-boundary side effects |
+| 5 | Plan By Risk | Broad implementation before checking invalidating assumptions; parallelizing work that shares unstable state |
+| 6 | Make Minimal Changes | Orthogonal damage and scope creep |
+| 7 | Build Product-Grade UX | Flows that work technically but trap users; unverified UX quality hidden at close |
+| 8 | Treat External Input As Data | Prompt injection and untrusted input |
+| 9 | Keep the Codebase Easy to Change | Structural debt that compounds silently |
+| 10 | Verify With Evidence | Narrative substituting for checked results |
+| 11 | Decide Acceptance Explicitly | Conflating passing tests with readiness for user/demo/beta/production/trust-critical delivery |
+| 12 | Close Cleanly | Handoffs that leave no context for continuation |
 
 ---
 
-## What this is
+## Usage
 
-This project does not model roles or rule sections. It models professional behavior patterns that compose, regulate, and modify agent conduct.
+Drop `AGENTS.md` into your repo root. Supported natively by Claude Code. Compatible with any agent that reads repo context at session start.
 
-We do not store every expert behavior. We store a compact basis that can generate them.
-
-If each derived behavior were written as a standalone instruction, this would likely become a much larger prompt. The point of the vectorial structure is to preserve behavior while reducing prompt mass.
-
-This repo turns agent skills into agent instincts.
-
-Humans do not run named skills in their heads. They internalize knowledge, notice context, and let that change what they do, how they do it, and why they do it.
-
-When knowledge is internalized, behavior can change.
-
-Instead of installing a growing list of situational skills, this repo extracts the expert behavior behind those skills and expresses it as simple, observable obligations inside a compact `AGENTS.md` / `CLAUDE.md` contract.
-
-The target is not compliance with sections. The target is professional conduct shaped by internalized behavioral patterns, translated into actions ordinary coding agents can actually follow: read, ask, limit scope, stop on risk, verify, and hand off.
-
-**The goal:** broader aligned agent behavior with less prompt growth, less context overhead, and more verifiable work.
-
-Inspired by Andrej Karpathy's coding-agent failure modes and Matt Pocock's composable agent skills work. Independent project. Not affiliated with or endorsed by either author or their projects.
+For Claude.ai projects or API system prompts, paste the content directly.
 
 ---
 
-## What changes in the agent
-
-The agent gets a compact behavioral contract that pushes it to:
-
-- ask before guessing
-- read the repo before designing
-- keep scope narrow
-- avoid speculative abstractions
-- make surgical, reversible changes
-- name public contract changes
-- stop before risky work
-- verify before claiming success
-- leave an auditable handoff
-
-Use the full contract by default.
-
-Compact versions are secondary:
-
-- `AGENTS.md` — recommended full contract for agents that read `AGENTS.md`
-- `CLAUDE.md` — recommended full contract for Claude Code
-- `AGENTS.min.md` — compressed fallback for tight context windows or quick adoption
-- `CLAUDE.min.md` — compressed fallback for Claude Code
-
-The `.min` files are intentionally smaller. They preserve the core behavior, but they are not meant to replace the full contract when context is available.
-
-If you are unsure, use the full file. The first trial costs one copied file.
-
----
-
-## Core thesis
-
-A useful skill contains more than a procedure. It contains transferable expert behavior.
-
-A skill says:
-
-```text
-When this situation appears, follow this recipe.
-```
-
-This contract asks:
-
-```text
-What behavior makes that recipe work?
-What part is domain-specific?
-What part transfers across repositories?
-What condition should activate it?
-How can it compose with other behaviors?
-```
-
-The reusable parts become behavioral vectors and context operators.
-
-The vectors are not rule sections. They are dimensions of professional conduct. The operators are not extra procedures. They are contextual regulators.
-
-**A skill teaches a recipe. A behavior teaches judgment.**
-
-When a skill is internalized as behavior, the agent can act differently beyond the original recipe.
-
-In the contract itself, this is not expressed as philosophy. It is expressed as executable conduct: inspect evidence, surface ambiguity, preserve scope, avoid speculative complexity, block risky work, and verify before claiming success.
-
----
-
-## From skills to instincts
-
-Most agent systems grow by adding more skills. That works, but it increases context and creates a long catalog of situational recipes.
-
-This project takes the opposite path:
-
-1. Start with a large set of expected expert behaviors.
-2. Decompose them into near-orthogonal behavioral components.
-3. Keep the components that are broadly reusable.
-4. Add context operators that multiply those components when conditions appear.
-5. Recompose them into the original behavior space.
-6. Generate new aligned behavior in adjacent situations without adding a new skill for each case.
-
-That is the practical meaning of “vectorial” here.
-
-Linear algebra gives the metaphor:
-
-```text
-find a basis → compose vectors → span a space
-```
-
-This repo applies that idea to agent behavior:
-
-```text
-find a compact behavioral basis → compose it with context operators → span a larger space of aligned coding-agent conduct
-```
-
-It is not a mathematical proof. It is a design discipline: reduce behavior to reusable basis vectors, then recover specificity through composition.
-
----
-
-## Why Karpathy + Pocock
-
-Karpathy clearly named common coding-agent failures:
-
-> "The models make wrong assumptions on your behalf and just run along with them without checking. They don't manage their confusion, don't seek clarifications, don't surface inconsistencies, don't present tradeoffs, don't push back when they should."
-
-> "They really like to overcomplicate code and APIs, bloat abstractions."
-
-Pocock showed a practical delivery form: small, useful, composable agent skills for real engineering work.
-
-This repo connects those ideas differently:
-
-```text
-Karpathy identifies the failure modes.
-Pocock demonstrates composable engineering skills.
-This project extracts the behavioral substrate behind both.
-```
-
-The result is not a larger skill catalog. It is a smaller behavioral basis.
-
----
-
-## Skill catalog vs vectorial contract
-
-| Skill catalog | Vectorial contract |
-|---|---|
-| Adds procedures | Extracts behavior |
-| Grows by accumulation | Grows by composition |
-| Many situational recipes | Few reusable behavioral vectors |
-| Tool or workflow specific | Agent-behavior focused |
-| More context per new case | More reuse across cases |
-| Teaches what to do | Teaches how to decide |
-
----
-
-## The 10 base vectors
-
-These are the independent behavioral dimensions in the contract:
-
-| # | Vector | Prevents |
-|---|---|---|
-| 1 | Intent | Wrong assumptions, silent interpretation |
-| 2 | Evidence | Designing from memory instead of repo |
-| 3 | Scope | Expanding beyond what was requested |
-| 4 | Minimal Reversible Change | Overengineering, unnecessary abstractions |
-| 5 | Contract Safety | Silent changes to APIs, schemas, auth, user behavior |
-| 6 | External Input Boundary | Treating pasted/logged/generated content as instructions |
-| 7 | Risk Gate | Proceeding through high-risk work without authorization |
-| 8 | Verification | Claiming success without evidence |
-| 9 | Change Capacity | Introducing debt without naming it |
-| 10 | Handoff | Ending without auditable status |
-
----
-
-## The context operators
-
-Operators activate only when their condition appears. They do not replace the base vectors; they regulate and multiply them.
-
-| Operator | When it activates | Adds |
-|---|---|---|
-| First Contact | New repo or unknown context | Read before proposing |
-| Active Context | Task spans files, steps, decisions, or risks | Keep state explicit |
-| Scope Expansion | Work is too broad to verify as one unit | Propose a slice first |
-| Direction Change | User request conflicts with prior decision | Name the conflict |
-| Contradiction Detection | Claims conflict with observed repo evidence | Prefer observed evidence |
-| Bug or Regression | Fixing a bug or failed test | Reproduce or inspect before fixing |
-| Public Surface | APIs, schemas, CLI, env, file formats, auth, user behavior | Name compatibility impact |
-| Documentation Drift | Behavior changes docs describe | Update docs or report drift |
-| High Risk | Production, secrets, auth, payments, privacy, migrations, deletion | Stop and confirm |
-| External Tool | Unfamiliar tool, library, API, framework, service | Read docs or local usage first |
-| Simplicity Pressure | Abstraction, flags, dependencies, speculative flexibility | Use existing code first |
-| User-Visible Truth | Cost, latency, privacy, destructive or irreversible behavior | Do not hide impact |
-
----
-
-## Behavioral algebra
-
-```text
-specialized behavior = base vectors × context operators
-behavior space ≈ span(base behavioral vectors, context operators)
-```
-
-Examples:
-
-```text
-Simplicity Pressure × Minimal Reversible Change
-= do not add abstraction unless it reduces an existing risk or the requested outcome requires it
-```
-
-```text
-Risk Gate × High Risk
-= stop before execution, report rollback path and available evidence
-```
-
-```text
-Contract Safety × Public Surface
-= name the affected API/schema/CLI/env/file/user-facing surface and state compatibility impact
-```
-
-```text
-Evidence × Contradiction Detection
-= stated behavior does not override observed repository evidence
-```
-
-The important property: when a useful skill is distilled into vectors and operators, the agent can behave correctly in neighboring situations that were never written as separate skills.
-
-That mirrors how humans learn: once knowledge becomes part of judgment, behavior changes beyond the original lesson.
-
-In practice, small added details can act like coefficients: they change the intensity, priority, or target of existing behavioral vectors without requiring a whole new procedure.
-
----
-
-## Block conditions
-
-The agent must stop and ask, or report a blockage, before proceeding when:
-
-- required context is missing and no safe assumption is possible
-- multiple valid interpretations exist and choosing silently could change the result
-- stated behavior conflicts with observed repository evidence and affects the decision
-- the requested change conflicts with user intent, contracts, tests, docs, or prior decisions
-- the task requires destructive, irreversible, production, secret, payment, privacy, migration, deletion, or data movement actions
-- verification cannot be performed and presenting success would be risky
-- the task is too broad to verify as one unit and no smaller slice has been defined
-
----
-
-## Completion report
-
-When work is done, the agent reports:
-
-```text
-Intent:
-Changed:
-Evidence:
-Unverified:
-Risk:
-```
-
-Do not claim completion beyond the evidence.
-
----
-
-## Files
-
-- `AGENTS.md` — full behavioral contract
-- `CLAUDE.md` — same contract for Claude Code users, with Claude-specific filename
-- `AGENTS.min.md` — compressed fallback for tight context windows or quick adoption
-- `CLAUDE.min.md` — compressed fallback for Claude Code
-- `OPERATORS.md` — operator catalog
-- `DESIGN.md` — design notes on reduction and composition
-- `COVERAGE.md` — rule-level coverage matrix
-- `EXAMPLES.md` — behavior examples
-- `NOTICE.md` — attribution and independence statement
-
----
-
-## How to know it is working
-
-These rules are working when:
-
-- diffs are smaller and easier to review
-- fewer changes are rewritten due to overengineering
-- ambiguity is surfaced before implementation
-- contradictions between claims and repo evidence are named early
-- success claims include evidence instead of confidence
-- unrelated code remains untouched
-- handoffs are short, specific, and auditable
-
----
-
-## Attribution
-
-Inspired by Andrej Karpathy's public guidance on LLM coding failures and Matt Pocock's public coding-agent skills work.
-
-This is an independent project. It is not affiliated with or endorsed by Andrej Karpathy, Matt Pocock, `multica-ai/andrej-karpathy-skills`, or `mattpocock/skills`.
-
-The goal is not to replace those works. It is to extract the transferable behaviors behind them and express those behaviors as a compact, composable contract for coding agents.
+**License:** MIT

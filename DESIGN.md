@@ -1,201 +1,110 @@
-# Design
+# Design Notes — Why This File Works
 
-This repository treats an agent instruction file as behavioral modeling, not role assignment, not rule sections, and not skill accumulation.
+Most AGENTS.md files are lists of preferences. This one is behavioral engineering. The distinction matters technically, not just philosophically.
 
-A role asks the model to infer what a good engineer would do. A rule section tells it what to obey in one block. A skill gives it a recipe for one situation. A behavioral contract defines the reusable conduct that makes expert work reliable across many situations.
+---
 
-The central idea is simple: do not store every expert behavior; store a compact basis that can generate them.
+## The core hypothesis
 
-The target is not section compliance. The target is professional conduct shaped by composable, regulated, internalized behavior patterns.
+Modern LLMs are sufficiently capable that they don't need to simulate an expert to produce expert-level output. What they need is a reduction of the behavioral space at each decision point.
 
-The model is human professional conduct, not a menu of commands. A professional does not think “run the TDD skill”. They know enough about risk, evidence, feedback, and intent to choose a test-first loop when the situation calls for it.
+The failure modes Karpathy identified — silent assumptions, overcomplicated solutions, orthogonal damage — are not intelligence failures. They are default behavior in the absence of constraints. The model is doing what its training distribution makes most probable when no specific constraint applies.
 
-The goal is to reduce avoidable coding-agent failures without making the instruction file so large that the agent stops following it.
+For multi-step work, this means constraints must force the agent to identify and test the assumption most likely to invalidate the plan before broad implementation.
 
-## Design constraints
+The job of an agent configuration file is not to make the model smarter. It is to make certain behaviors more probable than their failure-mode alternatives at the exact moment a decision is made.
 
-The contract should be:
+For user-facing work, constraints must also force explicit UX-state coverage and explicit reporting of unverified UX quality. For delivery-facing work, constraints must separate evidence from acceptance and require stronger gates for trust-critical flows.
 
-- short enough to remain usable in real agent contexts
-- explicit enough to avoid hidden interpretation
-- general enough for public repositories
-- strict enough to block unsafe or unverifiable work
-- composable enough to avoid repeating the same rule in many forms
-- compact enough that adding behavior does not require linear prompt growth
+---
 
-## Behavioral basis
+## Behavioral engineering vs. identity engineering
 
-The core design move is reduction.
+There are two architectures for agent instruction files:
 
-Start with a large set of expected expert behaviors. Decompose that set into near-orthogonal behavioral components. Keep the components that are broadly reusable across repositories. Then recover the original behavior space by composing those components with context operators.
+**Identity engineering** tells the model who to be:
+> "Act as a senior software engineer with 20 years of experience..."
 
-This is what “vectorial” means in this project:
+**Behavioral engineering** tells the model what to do, how, and why:
+> "Edit only what the request requires. Do not reformat, clean unrelated code, refactor nearby code, change local style or add unrequested improvements."
 
-```text
-expert behavior space ≈ span(base behavioral vectors, context operators)
-specialized behavior = base behavioral vectors × context operators × local details
-```
+Identity engineering has a structural problem: the model must first construct and maintain a fictional persona, then derive the correct behavior from that persona. This introduces two failure points — persona construction and behavior derivation — and consumes context window maintaining an identity that produces no direct output value.
 
-Linear algebra gives the metaphor:
+Behavioral engineering eliminates both failure points. The instruction operates at the decision layer directly. No persona to maintain. No derivation required.
 
-```text
-find a basis → compose vectors → span a space
-```
+This file uses only behavioral engineering. There are no roles, no personas, no "act as." Only constraints on what to do, how to do it, and why that constraint exists.
 
-This project applies that metaphor to agent behavior:
+---
 
-```text
-find a compact behavioral basis → compose it with context operators → span a larger space of aligned conduct
-```
+## The minimum executable unit
 
-This is not a mathematical proof. It is a practical discipline for prompt design:
+Each rule in this file follows a deliberate structure:
 
-- avoid duplicate instructions
-- avoid one recipe per situation
-- isolate the behavior that transfers
-- let context activate the right combination
-- use small local details like coefficients that adjust priority, intensity, or target
-- preserve coverage while shrinking the contract
+**What** to do → **How** to do it → **Why** that constraint exists
 
-The compression claim is practical: many professional behaviors can be derived from fewer reusable components. A flat instruction file would need to spell out each situation separately. The vector/operator structure keeps the prompt smaller while still telling the agent what to do, how to do it, and why the behavior matters.
+This is not stylistic. It is the minimum unit of instruction that allows a capable model to apply a rule correctly in edge cases it has never seen.
 
-## Skill distillation
+"What" alone produces literal compliance that fails at boundaries. "What + how" produces mechanical execution that fails at judgment calls. "What + how + why" produces a model that can reconstruct the correct behavior even in situations the rule author didn't anticipate — because the intent is encoded in the instruction, not left to inference.
 
-A skill is a situated behavior package: trigger, procedure, domain assumptions, and expected outputs.
+---
 
-This contract treats useful skills as source material. The process is:
+## Semantic precision as engineering
 
-1. Identify the behavior the skill reliably produces.
-2. Separate domain-specific assumptions from general agent behavior.
-3. Extract the independent behavioral vectors.
-4. Attach each vector to a condition or operator.
-5. Preserve only what improves behavior across repositories.
-6. Remove the situational recipe when the behavior can be recovered by composition.
+Every instruction in this file was audited from inside the agent's perspective — line by line, word by word. The criterion: can this sentence be evaluated as true or false at the moment of execution, without inferring external context?
 
-The agent does not need to carry every skill if the underlying behavior has been internalized into the contract.
+Terms that failed that test were replaced:
 
-A skill teaches a recipe. A behavior teaches judgment.
+| Replaced | With |
+|----------|------|
+| "use judgment" | "apply only the rules directly relevant to the request" |
+| "trivial tasks" | "single-step tasks with no risk of side effects" |
+| "if the assumption is safe" | "if proceeding cannot cause an irreversible or hard-to-detect error" |
+| "foreign changes" | "changes not made by you" |
+| "vertical slices" | "steps that each deliver something observable and independently verifiable" |
+| "orphans" | "dead code created by your change" |
+| "decorative tests" | "tests that pass without covering behavior" |
+| "preserve change capacity" | "keep the codebase easy to change" |
+| "trustworthy microcopy" | "text that accurately describes what each action does" |
+| "main flow" | "synchronous execution path" |
+| "compact handoff" | "limited to what another agent needs to continue" |
 
-## Base vectors
+This is not editing for clarity. It is engineering for determinism. Each replacement reduces the distance between the instruction and the decision — which is the only variable a configuration file can control.
 
-The full contract uses ten base vectors:
+---
 
-1. Intent
-2. Evidence
-3. Scope
-4. Minimal Reversible Change
-5. Contract Safety
-6. External Input Boundary
-7. Risk Gate
-8. Verification
-9. Change Capacity
-10. Handoff
+## Context window as a design constraint
 
-Each base vector covers a distinct behavioral dimension. A vector should remain only if removing it would leave a behavior that cannot be reconstructed from the others without new interpretation.
+Every token in a configuration file competes with the tokens that carry actual task information. This creates a real engineering tradeoff: more instructions reduce failure modes but also reduce the effective context available for the task.
 
-## Composition operators
+This file is designed around that constraint:
 
-Operators are not extra principles and not extra procedure sections. They are contextual regulators and multipliers.
+- 12 rules cover the failure modes that actually appear in production — not an exhaustive taxonomy
+- Each rule is written at the minimum length that preserves the what+how+why structure
+- No rule contains theory, examples, or justification beyond what the model needs to execute
+- Identity instructions are eliminated entirely — they consume context without improving behavior
 
-For example:
+The result is maximum behavioral coverage per token.
 
-```text
-Contract Safety × Public Surface
-= name the API/schema/CLI/env/file/user-facing surface and state compatibility impact
-```
+---
 
-```text
-Verification × Bug or Regression
-= reproduce or inspect the failure, fix the cause, then verify against that failure mode
-```
+## Why this is technically correct for current LLMs
 
-```text
-Evidence × Contradiction Detection
-= stated behavior does not override observed repository evidence
-```
+LLMs generate tokens by sampling from probability distributions conditioned on context. A configuration file works by shifting those distributions — making certain outputs more probable at each decision point.
 
-```text
-Scope × Simplicity Pressure
-= avoid abstractions, flags, providers, dependencies, or future flexibility unless required
-```
+Behavioral instructions shift distributions directly at the decision layer. Identity instructions shift distributions indirectly, via persona construction, which introduces variance between the intended behavior and the actual output.
 
-```text
-Contract Safety × Documentation Drift
-= if changed behavior makes existing docs false, update docs or report the drift
-```
+RLHF and modern alignment training reinforce specific behaviors, not identities. A file written in the language of behavior — concrete actions with stated rationale — is more aligned with how these models were trained than a file written in the language of persona.
 
-This structure lets the contract stay compact while still producing specific behavior in practical situations.
+This is not a claim that behavioral instructions guarantee perfect adherence. Models are probabilistic and no instruction set eliminates variance entirely. It is a claim that behavioral instructions minimize the distance between the instruction and the decision — which is the maximum any configuration file can achieve with current architectures.
 
-## From skills to instincts
+---
 
-The desired outcome is not that the agent memorizes more procedures. The desired outcome is that the agent acts as if it had better engineering instincts.
+## What this file is not
 
-When knowledge is internalized, behavior can change. This contract uses that human pattern as a design target for agents.
+It is not a prompt that makes the model smarter. The model's intelligence is fixed.
 
-That does not mean the operational contract should ask the model to “be human” or rely on vague judgment. The human pattern is translated into small observable obligations: identify intent, inspect evidence, constrain scope, name risk, verify results, and hand off honestly.
+It is not a simulation of an expert. Expert simulation requires identity maintenance that consumes context and introduces derivation variance.
 
-When a useful skill is distilled into vectors and operators, the agent can produce aligned behavior in neighboring situations that were never written as separate skills.
+It is not a comprehensive methodology. It is a minimal set of behavioral constraints derived from real production failure patterns.
 
-That is the leverage: new aligned conduct can emerge from combinations of existing behavioral components plus small task-specific details, instead of requiring a new instruction block for every case.
-
-The skill is no longer just a recipe to execute. It becomes a behavioral influence that changes what the agent notices, asks, avoids, verifies, and reports.
-
-For portability, the final `AGENTS.md` should avoid poetic or aspirational language. It should contain conduct that cheaper or weaker models can still attempt: read this, ask when ambiguous, do not touch that, stop here, verify this, report what remains unknown.
-
-That is the main product claim:
-
-```text
-Extract behavior from skills.
-Integrate it into the behavioral basis.
-Let operators compose it into new aligned conduct.
-```
-
-## Controlled specialization
-
-Specialization does not require a new persona.
-
-A bugfix workflow, high-risk workflow, public API workflow, unfamiliar-tool workflow, or documentation-drift workflow can be expressed as the same base contract multiplied by a different operator.
-
-```text
-specialized behavior = base vectors × context operators
-```
-
-This makes the behavior more inspectable than a role prompt because the specialization comes from visible conditions and obligations, not from an implied identity.
-
-The aim is not to make the agent perform a role. The aim is to modify how it notices, decides, acts, verifies, and hands off work.
-
-## Decision records
-
-Decision records are gated.
-
-An ADR should exist only when all three are true:
-
-- the decision is costly to reverse
-- the decision would surprise a future maintainer without context
-- genuine alternatives existed
-
-This prevents the contract from turning every choice into permanent process overhead.
-
-## Why include CLAUDE.md?
-
-`CLAUDE.md` is the same contract as `AGENTS.md`, included for Claude Code users. The behavior should not fork by tool unless a project intentionally needs tool-specific instructions.
-
-The title may differ to match the filename. The behavioral content should stay equivalent.
-
-## Why not just list every rule?
-
-A long flat list becomes hard to follow. It also hides which rules are fundamental and which are contextual.
-
-The base/operator split keeps invariant behavior separate from the conditions that specialize it.
-
-## No certainty claim
-
-This contract does not prove that every model will always behave correctly. The realistic claim is narrower:
-
-- explicit obligations are easier to follow than vague principles
-- contextual operators reduce silent interpretation
-- blocking conditions make uncertainty and risk visible
-- handoff format makes completion auditable
-- behavior can be expanded by composition instead of by adding one instruction per case
-
-The contract improves the agent's operating envelope; it does not replace review, tests, or engineering judgment.
+It is a set of probability shifts — designed to make the model's defaults less probable and the correct behaviors more probable, at the exact moments those decisions are made.
