@@ -1,22 +1,41 @@
 # Karpathy-Pocock Vectorial Composed Learnings
 
-A compact behavioral contract for coding agents: fewer skills, stronger composition, clearer verification.
+Most agent repos add more skills.
 
-Most agent-skill repos grow by adding more instructions. This project takes the opposite path: decompose recurring agent failures into independent behavioral vectors, then recombine them through context operators.
+This repo extracts the behavior behind skills and turns it into a compact agent contract.
 
-Fewer skills. Stronger composition. Verifiable agent behavior.
+Skills are recipes for one situation. Behavioral vectors are reusable across many situations.
+
+**The goal:** fewer skills, stronger composition, verifiable agent behavior.
+
+> Composition can replace accumulation.
+
+| Skill catalog | Vectorial contract |
+|---|---|
+| Adds instructions | Extracts behavior |
+| Grows by accumulation | Grows by composition |
+| Many situational recipes | Few reusable vectors |
+| More context overhead | Less context overhead |
+| Tool-specific | Agent-behavior focused |
+
+---
 
 ## Core thesis
 
-Most agent-skill repos grow by adding more instructions.
+A useful skill contains more than instructions. It contains transferable behavior.
 
-This project takes the opposite path: extract the behavioral vectors behind useful skills, then compose them into a compact operating contract.
+This project takes skills, examples, and coding-agent failure modes, then asks:
 
-A skill teaches an agent what to do in one situation. A behavioral vector teaches the agent how to behave across many situations.
+```text
+What behavior is this trying to produce?
+What part is domain-specific?
+What part is reusable across repositories?
+What condition should trigger it?
+```
 
-Skills are executable examples of behavior. This project extracts the behavioral vectors behind those skills, so agents can internalize the capability instead of carrying a growing catalog of instructions.
+The reusable parts become behavioral vectors. Context decides how they compose.
 
-The goal is not a larger skill catalog. The goal is transferable behavior with less context overhead.
+That is why this is not a larger skill catalog. It is a smaller operating contract for behavior that agents can internalize.
 
 Don’t give the agent more skills. Teach it the behavioral vectors that make skills work.
 
