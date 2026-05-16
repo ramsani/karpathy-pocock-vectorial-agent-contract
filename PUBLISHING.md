@@ -1,6 +1,6 @@
 # Publishing Guide
 
-Use this checklist to publish the repository cleanly.
+Use this checklist to publish the repository cleanly and position it as a behavioral-basis product, not another skill catalog.
 
 ## Repository name
 
@@ -19,7 +19,7 @@ karpathy-agent-contract
 ## Description
 
 ```text
-Karpathy- and Pocock-inspired vectorial agent contract: fewer skills, stronger composition, verifiable coding-agent behavior.
+Karpathy- and Pocock-inspired behavioral basis for coding agents: turn skills into instincts with a compact AGENTS.md / CLAUDE.md contract.
 ```
 
 ## Suggested topics
@@ -43,7 +43,7 @@ vectorial
 ## Pre-publish checklist
 
 - [ ] Confirm `AGENTS.md` is the latest version.
-- [ ] Confirm `CLAUDE.md` mirrors `AGENTS.md`.
+- [ ] Confirm `CLAUDE.md` is behaviorally equivalent to `AGENTS.md` except for filename/title.
 - [ ] Confirm `AGENTS.min.md` matches the same core behavior.
 - [ ] Confirm README links work.
 - [ ] Confirm NOTICE includes attribution.
@@ -66,18 +66,14 @@ Initial public release of agent behavior contract
 ## Suggested launch post
 
 ```text
-I published Karpathy-Pocock Vectorial Composed Learnings: an AGENTS.md / CLAUDE.md contract for coding agents.
+I published Karpathy-Pocock Vectorial Agent Contract: a compact AGENTS.md / CLAUDE.md behavioral basis for coding agents.
 
-Most agent instructions assign a role. This one models behavior.
-
-The contract uses:
-- base behavioral rules
-- context operators
-- block conditions
-- auditable handoff
+Most agent repos add more skills. This one extracts the expert behavior behind skills and turns it into reusable vectors and context operators.
 
 The design idea is simple:
-specialized behavior = base rules × context operators
+specialized behavior = base behavioral vectors × context operators
+
+The goal: turn skills into agent instincts without growing the prompt linearly.
 
 Repo: <link>
 ```
